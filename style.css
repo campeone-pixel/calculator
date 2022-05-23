@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: blue;
+  background-image: url(pexels-lumn-167682.jpg);
+  background-position: center;
+  background-size: cover;
+  background-color: #e7edbc;
+}
+
+.calculator {
+  display: flex;
+  height: 500px;
+  width: 300px;
+  min-height: 500px;
+  min-width: 300px;
+  flex-direction: column;
+  background-color: rgb(164, 164, 177);
+  padding: 25px;
+  gap: 25px;
+  border-radius: 20px;
+
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(0, 0, 0, 0.5),
+    -1px -1px 30px rgba(0, 0, 0, 0.2);
+  background-color: rgb(100, 101, 101);
+}
+.output {
+  flex: 1 1;
+  background-color: rgb(46, 106, 69);
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: inset 5px 5px 8px rgba(0, 0, 0, 0.5);
+}
+.input,
+.total {
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+}
+span {
+  font-size: 2em;
+  color: rgba(29, 27, 27, 0.6);
+  overflow: hidden;
+}
+.input {
+  flex: 1 1;
+}
+.total {
+  flex: 2 1;
+}
+
+.allButtons {
+  flex: 4 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.clearDelete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.clear,
+.delete {
+  flex: 1 1;
+  height: 50px;
+  width: 80px;
+  border-radius: 10px;
+}
+
+.numbersAndOperators {
+  flex: 1 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+button {
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  font-size: large;
+  background-color: rgb(168, 184, 230);
+}
+
+.numbersAndOperators > button {
+  flex: 1 1;
+  aspect-ratio: 1 / 1;
+  height: 50px;
+  border-radius: 10px;
+}
+
+button:active {
+  background-color: rgb(168, 184, 230);
+  background-position: -60px 0px;
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5);
+  font-family: "Digital-7", arial;
+}
