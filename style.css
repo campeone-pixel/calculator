@@ -42,7 +42,7 @@ body {
   box-shadow: inset 5px 5px 8px rgba(0, 0, 0, 0.5);
 }
 .input,
-.total {
+.operation {
   display: flex;
   justify-content: right;
   align-items: flex-end;
@@ -52,7 +52,7 @@ span {
   color: rgba(29, 27, 27, 0.6);
   overflow: hidden;
 }
-.input {
+.operation {
   flex: 1 1;
 }
 .total {
@@ -106,5 +106,4 @@ button:active {
   background-color: rgb(168, 184, 230);
   background-position: -60px 0px;
   box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5);
-  font-family: "Digital-7", arial;
 }
