@@ -1,20 +1,41 @@
-const inputVisor = document.querySelector(".input>span");
-const operation = document.querySelector(".operation>span");
-const valuesForOperation = [null, null];
-let operactionActive = "";
-let getResult = false;
+const input = document.querySelector(".input>span");
+const currentOperation = document.querySelector(".operation>span");
+const clearButton = document.querySelector(".clear");
+const deleteButton = document.querySelector(".delete");
+let lastValue = undefined;
+let operationActive = undefined;
+let finishedOperation = false;
 
 const allNumberButton = Array.from(document.querySelectorAll(".button.number"));
-console.log(allNumberButton);
 allNumberButton.forEach((button) => {
-  button.addEventListener("click", inputNumbers);
+  button.addEventListener("click", inputNumbersButton);
 });
 
-function inputNumbers() {
-  if (inputVisor.innerHTML === "0") {
-    inputVisor.innerHTML = this.value;
+function addNumbersVisor(e) {
+  if (input.innerHTML === "0") {
+    updateInput(e);
   } else {
-    inputVisor.innerHTML = inputVisor.innerHTML + this.value;
+    updateInput(input.innerHTML + e);
+  }
+}
+
+function inputNumbersButton() {
+  if (this.value === "." && input.innerHTML.indexOf(".") === -1) {
+    if (finishedOperation) {
+      updateFinishedOperation();
+      updateInput(0);
+      addNumbersVisor(this.value);
+    } else {
+      addNumbersVisor(this.value);
+    }
+  } else if (this.value !== ".") {
+    if (finishedOperation) {
+      updateFinishedOperation();
+      updateInput(0);
+      addNumbersVisor(this.value);
+    } else {
+      addNumbersVisor(this.value);
+    }
   }
 }
 
@@ -24,64 +45,132 @@ operators.forEach((button) => {
 });
 
 function addOperation() {
-  operactionActive = this.value;
-  if (valuesForOperation.indexOf(null) === 0) {
-    saveNumber(+inputVisor.innerHTML);
-    operation.innerHTML = inputVisor.innerHTML + this.value;
-    inputVisor.innerHTML = "0";
-  } else if (valuesForOperation.indexOf(null) === 1) {
-    saveNumber(+inputVisor.innerHTML);
-    operation.innerHTML = operation.innerHTML + inputVisor.innerHTML;
-    inputVisor.innerHTML = `${operate()}`;
-    if (getResult === true) {
-      operation.innerHTML = inputVisor.innerHTML;
-      inputVisor.innerHTML = "0";
-    } else if (valuesForOperation.indexOf(null) === -1) {
+  updateFinishedOperation();
+  if (input.innerHTML === "") {
+    // do nothing, wait to enter input
+  } else if (lastValue === undefined) {
+    updateLastValue(+input.innerHTML);
+    cleanInput();
+    saveCurrentOperation(this.value);
+    updateCurrentOperation(`${lastValue}${this.value}`);
+  } else if (operationActive === undefined) {
+    updateCurrentOperation(`${+input.innerHTML}${this.value}`);
+    saveCurrentOperation(this.value);
+    cleanInput();
+  } else {
+    updateLastValue(operate(operationActive));
+    updateInput(`${lastValue}`);
+    cleanCurrentOperation();
+    updateCurrentOperation(`${lastValue}${this.value}`);
+    saveCurrentOperation(this.value);
+    cleanInput();
+  }
+}
+
+const equalOperator = document.querySelector(".equal");
+equalOperator.addEventListener("click", getEqual);
+
+function getEqual() {
+  if (input.innerHTML !== "" && lastValue === undefined) {
+    updateLastValue(+input.innerHTML);
+    updateFinishedOperation(1);
+  } else if (input.innerHTML !== "") {
+    if (operationActive === undefined) {
+      updateFinishedOperation(1);
+    } else {
+      updateLastValue(operate(operationActive));
+
+      updateInput(`${lastValue}`);
+      cleanCurrentOperation();
+      saveCurrentOperation(undefined);
+      updateLastValue(undefined);
+      updateFinishedOperation(1);
     }
   }
 }
 
-function saveNumber(number) {
-  if (valuesForOperation.indexOf(null) === 0) {
-    valuesForOperation[0] = number;
-  } else if (valuesForOperation.indexOf(null) === 1) {
-    valuesForOperation[1] = number;
+function cleanInput() {
+  input.innerHTML = "";
+}
+
+function cleanCurrentOperation() {
+  currentOperation.innerHTML = "";
+}
+
+function updateInput(e) {
+  input.innerHTML = e;
+}
+
+function updateCurrentOperation(e) {
+  currentOperation.innerHTML = e;
+}
+
+function updateLastValue(e) {
+  lastValue = e;
+}
+
+function resetLastValue() {
+  lastValue = undefined;
+}
+
+function saveCurrentOperation(operation) {
+  operationActive = operation;
+}
+
+function updateFinishedOperation(e) {
+  if (e === 1) {
+    finishedOperation = true;
+  } else {
+    finishedOperation = false;
   }
 }
 
 function operate(operation) {
   let result = 0;
   if (operation === "+") {
-    result = add(valuesForOperation);
+    result = add(lastValue, +input.innerHTML);
   } else if (operation === "-") {
-    result = subtract(valuesForOperation);
+    result = subtract(lastValue, +input.innerHTML);
   } else if (operation === "/") {
-    result = divide(valuesForOperation);
+    result = divide(lastValue, +input.innerHTML);
   } else if (operation === "x") {
-    result = multiply(valuesForOperation);
+    result = multiply(lastValue, +input.innerHTML);
   }
   return result;
 }
 
-const add = function (list) {
-  const total = list.reduce((sum, value) => sum + value, 0);
+const add = function (a, b) {
+  const total = a + b;
   return total;
 };
 
-const subtract = function (list) {
-  const total = list.reduce(
-    (sum, value) => (value === listToSum[0] ? listToSum[0] : sum - value),
-    0,
-  );
+const subtract = function (a, b) {
+  const total = a - b;
+
   return total;
 };
 
-const divide = function (list) {
-  const total = list.reduce((sum, value) => sum / value, 0);
+const divide = function (a, b) {
+  const total = a / b;
   return total;
 };
 
-const multiply = function (list) {
-  const total = list.reduce((sum, value) => sum * value, 1);
+const multiply = function (a, b) {
+  const total = a * b;
   return total;
 };
+
+function deleteInput() {
+  if (input.innerHTML !== "") {
+    updateInput(input.innerHTML.slice(0, -1));
+  }
+}
+
+deleteButton.addEventListener("click", deleteInput);
+
+clearButton.addEventListener("click", () => {
+  cleanCurrentOperation();
+  cleanInput();
+  updateInput(0);
+  updateLastValue(undefined);
+});

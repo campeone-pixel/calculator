@@ -26,6 +26,10 @@ body {
   background-color: rgb(164, 164, 177);
   padding: 25px;
   gap: 25px;
+  border-color: rgb(164, 164, 177) rgb(85, 85, 97) rgb(85, 85, 97)
+    rgb(164, 164, 177);
+  border-width: 2px;
+  border-style: solid;
   border-radius: 20px;
 
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5), 10px 10px 15px rgba(0, 0, 0, 0.5),
@@ -40,6 +44,10 @@ body {
   padding: 14px;
   border-radius: 10px;
   box-shadow: inset 5px 5px 8px rgba(0, 0, 0, 0.5);
+  border-color: rgb(85, 85, 97) rgb(164, 164, 177) rgb(164, 164, 177)
+    rgb(85, 85, 97);
+  border-width: 1px;
+  border-style: solid;
 }
 .input,
 .operation {
@@ -54,9 +62,11 @@ span {
 }
 .operation {
   flex: 1 1;
+  min-height: 30%;
 }
-.total {
+.input {
   flex: 2 1;
+  min-height: 60%;
 }
 
 .allButtons {
@@ -79,6 +89,7 @@ span {
   height: 50px;
   width: 80px;
   border-radius: 10px;
+  background-color: rgb(223, 87, 87);
 }
 
 .numbersAndOperators {
@@ -89,7 +100,14 @@ span {
   align-items: center;
   gap: 15px;
 }
-button {
+
+.operator,
+.equal {
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  font-size: large;
+  background-color: rgb(168, 230, 189);
+}
+.number {
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   font-size: large;
   background-color: rgb(168, 184, 230);
@@ -102,8 +120,22 @@ button {
   border-radius: 10px;
 }
 
-button:active {
+.number:active {
   background-color: rgb(168, 184, 230);
+  background-position: -60px 0px;
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.operator:active,
+.equal:active {
+  background-color: rgb(168, 230, 189);
+  background-position: -60px 0px;
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.delete:active,
+.clear:active {
+  background-color: rgb(223, 87, 87);
   background-position: -60px 0px;
   box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.5);
 }
