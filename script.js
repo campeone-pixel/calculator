@@ -166,7 +166,10 @@ function inputNumbersButton(e) {
 
 function addOperation(e) {
   if (e.type === "click") {
-    updateFinishedOperation();
+    if (input.innerHTML === "Error") {
+      updateFinishedOperation();
+      cleanInput();
+    }
     if (input.innerHTML === "") {
       // do nothing, wait to enter input
     } else if (lastValue === undefined) {
